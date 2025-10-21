@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-mint: #97e3c0;
+  --color-peach: #ffcdb2;
+  --color-lilac: #d8c8ff;
+  --color-sky: #b8e4ff;
+  --color-yellow: #ffeaa7;
+  --color-charcoal: #2f3a45;
+  --color-slate: #5b6871;
+  --color-mist: #e9eef2;
+  --color-soft-white: #fafbfc;
+  --color-success: #74cda4;
+  --color-error: #ff8a80;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-mint: var(--color-mint);
+  --color-peach: var(--color-peach);
+  --color-lilac: var(--color-lilac);
+  --color-sky: var(--color-sky);
+  --color-yellow: var(--color-yellow);
+  --color-charcoal: var(--color-charcoal);
+  --color-slate: var(--color-slate);
+  --color-mist: var(--color-mist);
+  --color-soft-white: var(--color-soft-white);
+  --color-success: var(--color-success);
+  --color-error: var(--color-error);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --radius-card: 20px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 12px 32px rgba(47, 58, 69, 0.1);
+  --shadow-hover: 0 16px 40px rgba(47, 58, 69, 0.14);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+  color: var(--color-charcoal);
+  background-color: var(--color-soft-white);
+  -webkit-font-smoothing: antialiased;
 }
