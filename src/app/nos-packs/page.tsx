@@ -258,10 +258,10 @@ export default function NosPacksPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-coral px-8 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-coral/30 transition hover:shadow-xl hover:shadow-coral/40"
+            className="mt-8 inline-flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-coral to-lilac px-10 py-5 text-base font-extrabold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-coral/50"
           >
-            <MessageCircle size={18} />
-            Demander une carte cadeau
+            <MessageCircle size={20} className="animate-pulse" />
+            <span className="tracking-wide">Demander une carte cadeau</span>
           </Link>
         </motion.div>
       </section>

@@ -139,6 +139,35 @@ export class AuthManager {
     }
   }
 
+  // Changer le nom d'utilisateur
+  static changeUsername(newUsername: string): boolean {
+    if (typeof window === 'undefined') return false;
+
+    try {
+      const adminData = localStorage.getItem(this.STORAGE_KEY);
+      if (!adminData) return false;
+
+      const admin: AdminUser = JSON.parse(adminData);
+      admin.username = newUsername;
+
+      // Sauvegarder
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(admin));
+      
+      // Mettre à jour la session
+      const sessionData = localStorage.getItem(this.SESSION_KEY);
+      if (sessionData) {
+        const session = JSON.parse(sessionData);
+        session.username = newUsername;
+        localStorage.setItem(this.SESSION_KEY, JSON.stringify(session));
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Erreur lors du changement du nom d\'utilisateur:', error);
+      return false;
+    }
+  }
+
   // Obtenir les informations de l'admin
   static getAdminInfo(): AdminUser | null {
     if (typeof window === 'undefined') return null;

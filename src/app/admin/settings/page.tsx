@@ -26,6 +26,8 @@ export default function AdminSettings() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [adminInfo, setAdminInfo] = useState<AdminUser | null>(null);
+  const [newUsername, setNewUsername] = useState("");
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
   const router = useRouter();
   const { showSuccess, showError, showWarning } = useNotifications();
 
@@ -39,7 +41,26 @@ export default function AdminSettings() {
     // Charger les informations admin
     const admin = AuthManager.getAdminInfo();
     setAdminInfo(admin);
+    if (admin) {
+      setNewUsername(admin.username);
+    }
   }, [router]);
+
+  const handleUsernameChange = () => {
+    if (!newUsername || newUsername.trim().length < 3) {
+      showError("Nom invalide", "Le nom d'utilisateur doit contenir au moins 3 caractères");
+      return;
+    }
+
+    const success = AuthManager.changeUsername(newUsername.trim());
+    if (success) {
+      showSuccess("Nom modifié", "Votre nom d'utilisateur a été mis à jour !");
+      setAdminInfo(prev => prev ? { ...prev, username: newUsername.trim() } : null);
+      setIsEditingUsername(false);
+    } else {
+      showError("Erreur", "Impossible de modifier le nom d'utilisateur");
+    }
+  };
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,12 +167,49 @@ export default function AdminSettings() {
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <User className="w-4 h-4 text-slate" />
-                  <div>
-                    <p className="text-sm font-medium text-charcoal">Nom d'utilisateur</p>
-                    <p className="text-sm text-slate">{adminInfo.username}</p>
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <User className="w-4 h-4 text-slate" />
+                      <p className="text-sm font-medium text-charcoal">Nom d'utilisateur</p>
+                    </div>
+                    {!isEditingUsername && (
+                      <button
+                        onClick={() => setIsEditingUsername(true)}
+                        className="text-xs text-mint hover:text-fresh-green transition-colors"
+                      >
+                        Modifier
+                      </button>
+                    )}
                   </div>
+                  {isEditingUsername ? (
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
+                        className="flex-1 px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint"
+                        placeholder="Nouveau nom"
+                      />
+                      <button
+                        onClick={handleUsernameChange}
+                        className="px-3 py-1.5 text-xs font-medium text-white bg-mint rounded-lg hover:bg-fresh-green transition-colors"
+                      >
+                        OK
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsEditingUsername(false);
+                          setNewUsername(adminInfo.username);
+                        }}
+                        className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate">{adminInfo.username}</p>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-3">
