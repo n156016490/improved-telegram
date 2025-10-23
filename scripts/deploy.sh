@@ -26,10 +26,7 @@ echo "Installing dependencies..."
 npm ci --production=false
 
 echo "Building Next.js..."
-npm run build:next
-
-echo "Installing production dependencies only..."
-npm prune --production
+npm run build
 
 echo "Reloading PM2..."
 # If ecosystem file exists use it, otherwise reload by process name or id
