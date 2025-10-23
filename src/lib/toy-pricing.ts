@@ -115,9 +115,9 @@ export class ToyPricingManager {
   }
 
   // Mettre à jour un prix
-  static updatePricing(id: string, formData: Partial<ToyPricingFormData>): void {
+  static updatePricing(id: string, formData: Partial<ToyPricingFormData>): ToyPricing | null {
     const pricing = this.getPricingById(id);
-    if (!pricing) return;
+    if (!pricing) return null;
 
     const updatedPricing: ToyPricing = {
       ...pricing,
@@ -126,6 +126,7 @@ export class ToyPricingManager {
     };
 
     this.savePricing(updatedPricing);
+    return updatedPricing;
   }
 
   // Supprimer un prix

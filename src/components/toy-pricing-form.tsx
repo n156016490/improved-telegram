@@ -85,6 +85,11 @@ export function ToyPricingForm({
       ? ToyPricingManager.updatePricing(existingPricing.id, formData)
       : ToyPricingManager.createPricing(toyId, formData);
 
+    if (!pricing) {
+      console.error("Échec de la mise à jour du tarif pour le jouet", toyId);
+      return;
+    }
+
     onSave(pricing);
   };
 
