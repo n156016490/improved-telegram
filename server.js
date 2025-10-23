@@ -1,32 +1,32 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
+const { createServer } = require('http');
+const { parse } = require('url');
+const next = require('next');
 
-const app = express();
+const dev = process.env.NODE_ENV !== 'production';
+const hostname = 'localhost';
+const port = process.env.PORT || 3000;
 
-// Chemin vers le dossier out
-let outDir = path.join(__dirname, 'out');
-if (!fs.existsSync(outDir)) {
-  outDir = path.join(__dirname, 'out');
-}
+// Initialize Next.js app
+const app = next({ dev, hostname, port });
+const handle = app.getRequestHandler();
 
-console.log(`📁 Serveur les fichiers depuis: ${outDir}`);
-
-// Servez les fichiers statiques
-app.use(express.static(outDir));
-
-// Route fallback pour les routes React
-app.get('*', (req, res) => {
-  const indexPath = path.join(outDir, 'index.html');
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.status(404).send('index.html not found');
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Serveur lancé sur port ${PORT}`);
-  console.log(`📂 Fichiers servis depuis: ${outDir}`);
+app.prepare().then(() => {
+  createServer(async (req, res) => {
+    try {
+      const parsedUrl = parse(req.url, true);
+      await handle(req, res, parsedUrl);
+    } catch (err) {
+      console.error('Error occurred handling', req.url, err);
+      res.statusCode = 500;
+      res.end('Internal server error');
+    }
+  })
+    .once('error', (err) => {
+      console.error(err);
+      process.exit(1);
+    })
+    .listen(port, () => {
+      console.log(`🚀 Next.js serveur lancé sur http://${hostname}:${port}`);
+      console.log(`📂 Mode: ${dev ? 'development' : 'production'}`);
+    });
 });
