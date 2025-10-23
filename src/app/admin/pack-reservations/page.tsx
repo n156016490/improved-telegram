@@ -99,7 +99,7 @@ export default function PackReservationsPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <a 
-                href="/admin/dashboard" 
+                href="/admin" 
                 className="text-sm text-gray-600 hover:text-mint transition-colors"
               >
                 ← Dashboard
