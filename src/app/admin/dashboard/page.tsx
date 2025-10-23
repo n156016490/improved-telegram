@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { OrderManager, Order } from "@/lib/orders";
 import { PackManager } from "@/lib/packs";
 import { DashboardMetricsCalculator, DashboardMetrics } from "@/lib/dashboard-metrics";
-import { MaintenanceManager } from "@/lib/maintenance";
 import { useNotifications } from "@/components/notification-toast";
 import { 
   ShoppingCart, 
@@ -23,9 +22,7 @@ import {
   Star,
   Timer,
   RefreshCw,
-  Truck,
-  Wrench,
-  Power
+  Truck
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -36,8 +33,6 @@ export default function AdminDashboard() {
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [alerts, setAlerts] = useState<any[]>([]);
-  const [isMaintenanceMode, setIsMaintenanceMode] = useState<boolean>(false);
-  const [maintenanceMessage, setMaintenanceMessage] = useState<string>('');
   const { showSuccess, showError, showWarning, showInfo } = useNotifications();
 
   useEffect(() => {
@@ -52,11 +47,6 @@ export default function AdminDashboard() {
     // Calculer les métriques réelles
     const calculatedMetrics = DashboardMetricsCalculator.calculateMetrics(loadedOrders, loadedPacks);
     setMetrics(calculatedMetrics);
-    
-    // Charger l'état du mode maintenance
-    const maintenanceConfig = MaintenanceManager.getMaintenanceConfig();
-    setIsMaintenanceMode(maintenanceConfig.isActive);
-    setMaintenanceMessage(maintenanceConfig.message);
     
     // Obtenir les commandes récentes
     const recent = DashboardMetricsCalculator.getRecentOrders(loadedOrders);
@@ -73,31 +63,6 @@ export default function AdminDashboard() {
       3000
     );
   }, []);
-
-  const handleMaintenanceModeToggle = () => {
-    try {
-      if (isMaintenanceMode) {
-        MaintenanceManager.disableMaintenance();
-        setIsMaintenanceMode(false);
-        showSuccess("Mode maintenance désactivé", "Le site est maintenant accessible à tous.", 3000);
-      } else {
-        MaintenanceManager.enableMaintenance(maintenanceMessage);
-        setIsMaintenanceMode(true);
-        showSuccess("Mode maintenance activé", "Le site affiche maintenant un message de maintenance.", 3000);
-      }
-    } catch (error) {
-      showError("Erreur", "Impossible de changer le mode maintenance.", 3000);
-    }
-  };
-
-  const handleMaintenanceMessageUpdate = () => {
-    try {
-      MaintenanceManager.updateMessage(maintenanceMessage);
-      showSuccess("Message mis à jour", "Le message de maintenance a été modifié.", 3000);
-    } catch (error) {
-      showError("Erreur", "Impossible de mettre à jour le message.", 3000);
-    }
-  };
 
   const filteredOrders = orders.filter(order => 
     selectedStatus === 'all' || order.status === selectedStatus
@@ -216,6 +181,13 @@ export default function AdminDashboard() {
                 <Package className="h-4 w-4" />
                 Gérer Packs
               </a>
+              <a
+                href="/admin/maintenance"
+                className="flex items-center gap-2 rounded-lg bg-red-100 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-200 transition"
+              >
+                <AlertTriangle className="h-4 w-4" />
+                Maintenance
+              </a>
               <div className="text-sm text-gray-600">
                 {new Date().toLocaleDateString('fr-FR')}
               </div>
@@ -302,71 +274,6 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
-
-        {/* Section Mode Maintenance */}
-        <div className="mb-8 rounded-xl bg-gradient-to-r from-orange-50 to-red-50 p-6 shadow-sm border border-orange-200">
-          <div className="flex items-start gap-4">
-            <div className="rounded-full bg-orange-100 p-3">
-              <Wrench className="h-6 w-6 text-orange-600" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-bold text-charcoal mb-2">Mode Maintenance</h3>
-              <p className="text-sm text-slate mb-4">
-                Activez le mode maintenance pour afficher un message aux visiteurs pendant les mises à jour du site.
-              </p>
-              
-              <div className="space-y-4">
-                {/* Statut actuel */}
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-charcoal">Statut:</span>
-                  <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
-                    isMaintenanceMode 
-                      ? 'bg-red-100 text-red-700' 
-                      : 'bg-green-100 text-green-700'
-                  }`}>
-                    <Power className="h-3 w-3" />
-                    {isMaintenanceMode ? 'Mode Maintenance Actif' : 'Site en Ligne'}
-                  </span>
-                </div>
-
-                {/* Message de maintenance */}
-                <div>
-                  <label className="block text-sm font-medium text-charcoal mb-2">
-                    Message affiché aux visiteurs :
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={maintenanceMessage}
-                      onChange={(e) => setMaintenanceMessage(e.target.value)}
-                      className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200"
-                      placeholder="Site en maintenance. Nous revenons bientôt !"
-                    />
-                    <button
-                      onClick={handleMaintenanceMessageUpdate}
-                      className="rounded-lg bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 transition"
-                    >
-                      Mettre à jour
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bouton toggle */}
-                <button
-                  onClick={handleMaintenanceModeToggle}
-                  className={`inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold text-white transition ${
-                    isMaintenanceMode
-                      ? 'bg-green-600 hover:bg-green-700'
-                      : 'bg-red-600 hover:bg-red-700'
-                  }`}
-                >
-                  <Power className="h-4 w-4" />
-                  {isMaintenanceMode ? 'Désactiver le Mode Maintenance' : 'Activer le Mode Maintenance'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Métriques secondaires */}
         {metrics && (
