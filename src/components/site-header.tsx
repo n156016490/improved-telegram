@@ -3,14 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   X,
   Search,
-  User,
   Heart,
   ShoppingBag,
 } from "lucide-react";
+import CartIcon from "./cart-icon";
 
 const NAV_LINKS = [
   { href: "/jouets", label: "Jouets" },
@@ -22,18 +23,23 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-const ACTION_ICONS = [
-  { icon: Search, label: "Rechercher" },
-  { icon: User, label: "Mon compte" },
-  { icon: Heart, label: "Favoris" },
-  { icon: ShoppingBag, label: "Panier" },
-];
-
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/recherche?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-white/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-white/95 backdrop-blur-xl shadow-sm">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 lg:px-6">
         <div className="flex items-center gap-8">
           <button
@@ -47,7 +53,7 @@ export function SiteHeader() {
           <Link href="/" className="relative flex items-center">
             <Image
               src="/logo.png"
-              alt="LOUAAB"
+              alt="LOUAAB - On loue, on joue"
               width={180}
               height={60}
               className="h-auto w-32 lg:w-40"
@@ -69,15 +75,59 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {ACTION_ICONS.map(({ icon: Icon, label }) => (
+          {/* Search Button / Bar */}
+          {searchOpen ? (
+            <form onSubmit={handleSearch} className="hidden md:flex items-center">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Rechercher un jouet..."
+                className="w-64 rounded-l-xl border-2 border-mint px-4 py-2 text-sm focus:outline-none"
+                autoFocus
+              />
+              <button
+                type="submit"
+                className="rounded-r-xl bg-mint px-4 py-2 text-white transition hover:bg-mint/90"
+              >
+                <Search size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setSearchOpen(false)}
+                className="ml-2 rounded-xl border border-mist px-3 py-2 text-slate transition hover:border-mint"
+              >
+                <X size={18} />
+              </button>
+            </form>
+          ) : (
             <button
-              key={label}
+              onClick={() => setSearchOpen(true)}
               className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-mist text-charcoal transition hover:border-mint hover:bg-mint/10"
-              aria-label={label}
+              aria-label="Rechercher"
             >
-              <Icon size={18} />
+              <Search size={18} />
             </button>
-          ))}
+          )}
+
+          {/* Mobile Search */}
+          <Link
+            href="/recherche"
+            className="md:hidden relative flex h-10 w-10 items-center justify-center rounded-xl border border-mist text-charcoal transition hover:border-mint hover:bg-mint/10"
+            aria-label="Rechercher"
+          >
+            <Search size={18} />
+          </Link>
+
+
+          <button
+            className="relative hidden sm:flex h-10 w-10 items-center justify-center rounded-xl border border-mist text-charcoal transition hover:border-mint hover:bg-mint/10"
+            aria-label="Favoris"
+          >
+            <Heart size={18} />
+          </button>
+
+          <CartIcon />
         </div>
       </div>
 
@@ -100,4 +150,3 @@ export function SiteHeader() {
     </header>
   );
 }
-

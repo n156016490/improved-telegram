@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins, Nunito, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from "@/contexts/cart-context";
+import { FavoritesProvider } from "@/contexts/favorites-context";
+import { PackReservationsProvider } from "@/contexts/pack-reservations";
 
 const poppins = Poppins({
   variable: "--font-geist-sans",
@@ -50,7 +53,13 @@ export default function RootLayout({
       <body
         className={`min-h-screen bg-soft-white text-charcoal ${poppins.variable} ${nunito.variable} ${geistMono.variable}`}
       >
-        {children}
+        <CartProvider>
+          <FavoritesProvider>
+            <PackReservationsProvider>
+              {children}
+            </PackReservationsProvider>
+          </FavoritesProvider>
+        </CartProvider>
       </body>
     </html>
   );

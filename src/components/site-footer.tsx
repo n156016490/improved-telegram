@@ -48,7 +48,7 @@ export function SiteFooter() {
             </Link>
             
             <p className="text-sm leading-relaxed text-slate">
-              🎈 Le premier service marocain de location de jouets. Découvrez, jouez, échangez… sans encombrement !
+              🎈 On loue, on joue ! Le premier service marocain de location de jouets pour tous les âges.
             </p>
 
             {/* Newsletter */}
@@ -152,7 +152,7 @@ export function SiteFooter() {
         {/* Bottom Bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-mist pt-8 text-xs text-slate md:flex-row">
           <p>
-            © {new Date().getFullYear()} <span className="font-semibold text-charcoal">LOUAAB</span> – Tous droits réservés
+            © {new Date().getFullYear()} <span className="font-semibold text-charcoal">LOUAAB</span> – On loue, on joue !
           </p>
           
           <div className="flex items-center gap-2">

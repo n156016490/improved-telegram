@@ -6,3 +6,4 @@ import { HealthController } from "@backend/modules/health/health.controller";
 })
 export class HealthModule {}
 
+
