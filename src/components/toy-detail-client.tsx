@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, Clock, Plus, Minus, ShoppingCart, X } from "lucide-react";
+import { Calendar, Clock, Plus, Minus, ShoppingCart, X, TrendingUp } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
 import { ToyData } from "@/lib/toys-data";
 import PricingSelector, { PricingOption } from "./pricing-selector";
