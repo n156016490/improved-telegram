@@ -100,7 +100,10 @@ export default function NosPacksPage() {
 
   // Charger les packs depuis le service
   useEffect(() => {
-    const activePacks = PackManager.getActivePacks();
+    // Utilise getAllPacks() au lieu de getActivePacks() pour obtenir les packs par défaut
+    const allPacks = PackManager.getAllPacks();
+    const activePacks = allPacks.filter(pack => pack.isActive);
+    
     setSubscriptionPlans(activePacks);
     if (activePacks.length > 0) {
       setSelectedPlan(activePacks[0].id);
@@ -212,7 +215,7 @@ export default function NosPacksPage() {
                   }}
                   className={`mt-8 w-full rounded-xl py-4 text-sm font-bold uppercase tracking-wide transition ${
                     plan.badge
-                      ? "bg-gradient-to-r from-mint to-fresh-green text-charcoal shadow-lg shadow-mint/30 hover:shadow-xl hover:shadow-mint/40 hover:text-white"
+                      ? "bg-gradient-to-r from-mint to-fresh-green text-white shadow-lg shadow-mint/30 hover:shadow-xl hover:shadow-mint/40"
                       : "bg-charcoal text-white hover:bg-slate"
                   }`}
                 >

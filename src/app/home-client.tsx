@@ -70,7 +70,7 @@ export default function HomePage({ featuredToys }: HomePageProps) {
           >
             <span className="block text-6xl md:text-8xl lg:text-9xl">🎈</span>
             <span className="block mt-4">On loue,</span>
-            <span className="bg-gradient-to-r from-mint via-mint to-lilac bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-mint via-sky-blue to-coral bg-clip-text text-transparent">
               on joue !
             </span>
           </motion.h1>
