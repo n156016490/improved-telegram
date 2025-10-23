@@ -232,10 +232,19 @@ export default function NosPacksPage() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 text-center text-sm text-slate"
+          className="mt-12 flex flex-col items-center gap-4"
         >
-          🔒 Paiement sécurisé • ✅ Sans engagement • 🚚 Livraison gratuite
-          Casa & Rabat (à partir de 300 MAD)
+          <div className="flex items-center gap-2">
+            <span className="text-xs uppercase tracking-wider text-slate/60">Paiement sécurisé</span>
+            <div className="flex gap-1.5">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-mist/60 bg-white text-sm">�</span>
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-mist/60 bg-white text-sm">🏦</span>
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-mist/60 bg-white text-sm">📱</span>
+            </div>
+          </div>
+          <div className="text-sm text-slate">
+            Paiement à la livraison • ✅ Sans engagement • 🚚 Livraison gratuite Casa & Rabat (à partir de 300 MAD)
+          </div>
         </motion.div>
       </section>
 

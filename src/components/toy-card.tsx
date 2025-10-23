@@ -43,13 +43,6 @@ export default function ToyCard({ toy, priority = false }: ToyCardProps) {
             Image à venir
           </div>
         )}
-        
-        {/* Badge vidéo disponible */}
-        {toy.videoUrl && (
-          <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
-            Vidéo
-          </div>
-        )}
 
         {/* Badge promotion */}
         {toy.promotion?.isActive && (
