@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "export": "next export",
     "install:all": "npm install"
   },
