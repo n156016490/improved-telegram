@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Nunito, Geist_Mono } from "next/font/google";
+import { Poppins, Nunito } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/cart-context";
 import { FavoritesProvider } from "@/contexts/favorites-context";
@@ -15,11 +15,6 @@ const nunito = Nunito({
   variable: "--font-geist-alt",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`min-h-screen bg-soft-white text-charcoal ${poppins.variable} ${nunito.variable} ${geistMono.variable}`}
+        className={`min-h-screen bg-soft-white text-charcoal ${poppins.variable} ${nunito.variable}`}
       >
         <CartProvider>
           <FavoritesProvider>
