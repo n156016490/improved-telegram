@@ -36,10 +36,7 @@ export default function AdminDashboard() {
   const { showSuccess, showError, showWarning, showInfo } = useNotifications();
 
   useEffect(() => {
-    // Initialiser les données d'exemple si nécessaire
-    OrderManager.initializeSampleData();
-    
-    // Charger les commandes depuis le stockage
+    // Charger les commandes depuis le stockage (sans initialiser de données fictives)
     const loadedOrders = OrderManager.getAllOrders();
     setOrders(loadedOrders);
     
