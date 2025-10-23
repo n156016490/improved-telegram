@@ -11,7 +11,7 @@ import SearchBar from "@/components/search-bar";
 import {
   Search,
   SlidersHorizontal,
-  Grid3X3,
+  LayoutGrid,
   List,
   Heart,
   Eye,
@@ -305,7 +305,7 @@ export default function JouetsPage() {
                         : "text-slate hover:bg-mist"
                     }`}
                   >
-                    <Grid3X3 size={18} />
+                    <LayoutGrid size={18} />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
