@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "npm run build:next",
-    "build:next": "npm install && npm run build && npm run export",
+    "dev": "next dev",
+    "build": "next build && next export",
+    "export": "next export",
     "install:all": "npm install"
   },
   "dependencies": {
