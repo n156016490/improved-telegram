@@ -50,7 +50,7 @@ export default function ToyCardWithReservation({ toy, priority = false }: ToyCar
           {/* Badge vidéo disponible */}
           {toy.videoUrl && (
             <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
-              <span>▶</span> Vidéo
+              Vidéo
             </div>
           )}
 
