@@ -32,13 +32,13 @@ export default function AdminLogin() {
       const isValid = await AuthManager.authenticate(username, password);
       
       if (isValid) {
-        showSuccess("Connexion réussie !");
+        showSuccess("Connexion réussie", "Redirection vers le tableau de bord...");
         router.push('/admin');
       } else {
-        showError("Nom d'utilisateur ou mot de passe incorrect");
+        showError("Échec de connexion", "Nom d'utilisateur ou mot de passe incorrect");
       }
     } catch (error) {
-      showError("Erreur lors de la connexion");
+      showError("Erreur de connexion", "Une erreur s'est produite lors de la connexion");
     } finally {
       setIsLoading(false);
     }

@@ -48,15 +48,15 @@ export default function AdminSettings() {
     try {
       // Validation des mots de passe
       if (newPassword !== confirmPassword) {
-        showError("Les nouveaux mots de passe ne correspondent pas");
+        showError("Erreur de validation", "Les nouveaux mots de passe ne correspondent pas");
         setIsLoading(false);
         return;
       }
 
       const passwordValidation = AuthManager.validatePasswordStrength(newPassword);
       if (!passwordValidation.isValid) {
-        showError("Le mot de passe ne respecte pas les critères de sécurité");
-        passwordValidation.errors.forEach(error => showWarning(error));
+        showError("Mot de passe invalide", "Le mot de passe ne respecte pas les critères de sécurité");
+        passwordValidation.errors.forEach(error => showWarning("Critère non respecté", error));
         setIsLoading(false);
         return;
       }
@@ -64,15 +64,15 @@ export default function AdminSettings() {
       const success = await AuthManager.changePassword(currentPassword, newPassword);
       
       if (success) {
-        showSuccess("Mot de passe modifié avec succès !");
+        showSuccess("Mot de passe modifié", "Votre mot de passe a été mis à jour avec succès !");
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
       } else {
-        showError("Mot de passe actuel incorrect");
+        showError("Échec de modification", "Mot de passe actuel incorrect");
       }
     } catch (error) {
-      showError("Erreur lors du changement de mot de passe");
+      showError("Erreur système", "Une erreur s'est produite lors du changement de mot de passe");
     } finally {
       setIsLoading(false);
     }
