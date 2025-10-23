@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { Search, X, Filter, Grid3X3, List, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, X, Filter, LayoutGrid, List, ChevronDown, ChevronUp } from "lucide-react";
 import { ToyData } from "@/lib/toys-data";
 
 interface CategoriesSidebarProps {
@@ -197,7 +197,7 @@ export default function CategoriesSidebar({ categories, toys, currentCategory }:
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <Grid3X3 className="h-3 w-3" />
+            <LayoutGrid className="h-3 w-3" />
           </button>
           <button
             onClick={() => setViewMode('list')}
